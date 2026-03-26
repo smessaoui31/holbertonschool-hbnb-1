@@ -3,12 +3,16 @@ from flask_restx import Api
 
 from app.extensions import bcrypt, jwt, db
 
+# Import models to register them with SQLAlchemy
+from app.models import user, place, review, amenity
+
 # Namespaces (your files use ns in places/users/reviews, and api in auth)
 from app.api.v1.users import ns as users_ns
 from app.api.v1.places import ns as places_ns
 from app.api.v1.reviews import ns as reviews_ns
 from app.api.v1.auth import api as auth_ns  # <-- IMPORTANT: your auth.py uses "api="
 from app.api.v1.amenities import ns as amenities_ns  # <-- NEW: add amenities namespace
+from app.api.v1.protected import api as protected_ns
 
 def create_app(config_class="config.DevelopmentConfig"):
     app = Flask(__name__)
@@ -41,5 +45,6 @@ def create_app(config_class="config.DevelopmentConfig"):
     api.add_namespace(reviews_ns)
     api.add_namespace(auth_ns)
     api.add_namespace(amenities_ns)
+    api.add_namespace(protected_ns)
 
     return app
